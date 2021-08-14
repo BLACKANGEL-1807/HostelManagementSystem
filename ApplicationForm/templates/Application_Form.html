@@ -1,0 +1,378 @@
+{% extends 'base.html' %}
+{% block content %}
+
+ <script>
+  function copyFunction() 
+  {
+    var checkBox = document.getElementById("mycheck");
+    var text = document.getElementById("text");
+    var from_copyData = document.getElementById("T_Address");
+    var to_copyData = document.getElementById("P_Address");
+    if (checkBox.checked == true)
+    {
+      to_copyData.value = from_copyData.value;
+      document.getElementById("P_Address").innerHTML = Xool1.value;
+
+   }
+ }
+
+ function AgeCalc() 
+      {
+        var Birthdate = document.getElementById("DOB").value;
+        var Age       = document.getElementById("Age");
+
+
+        var UserDate  = new Date(Birthdate);
+        var month_diff =  Date.now() - UserDate.getTime();
+        //converting the  difference in date format
+        var age_dateFormat    = new Date(month_diff);
+        //Getting year from date    
+        var year = age_dateFormat.getUTCFullYear();
+        //the age of the user
+        var User_Age = Math.abs(year - 1970);
+        
+        Age.value = User_Age; 
+
+        document.getElementById("Age").innerHTML = Age.value;
+    
+    
+
+
+      }
+  </script>
+
+<style>
+  
+    .container-fluid
+    {
+      margin: 5px;
+      margin-right: 0%;
+      border-style: solid;
+      border-color: rgb(211, 209, 209);
+      border-width: 5px;
+      border-radius: 20px;
+      padding: 20px;
+      padding-top: 40px;
+    }
+
+
+
+</style>
+
+<form method="POST" action={% url 'Create' %}>
+  {% csrf_token %}
+
+<!-- Name and Registration Number -->
+  <div class="container-fluid">
+    <div class="mb-3">
+      <div class="row">
+        <div class="col">
+          <label for="NAME" id="NAME" class="form-label">Name</label>
+          <input
+            type="text"
+            id="FIRSTNAME"
+            class="form-control"
+            placeholder="Name"
+            aria-label="Name"
+            name="Name"
+          />
+        </div>
+        <div class="col">
+          <label for="Reg_No" class="form-label">Registration Number</label>
+          <input
+            type="number"
+            id="Reg_No"
+            class="form-control"
+            placeholder="Registration Number"
+            aria-label="Registration Number"
+            name="Registration_Number"
+            value={{ request.user }}
+          />
+          <br />
+        </div>
+        <!-- DOB and Age and Gender  -->
+        <div class="row">
+          <div class="col">
+            <label for="DOB" class="form-label">Date Of Birth</label>
+            <input
+              type="date"
+              id="DOB"
+              class="form-control"
+              placeholder=""
+              name="Date_of_Birth"
+            />
+          </div>
+          <div class="col">
+            <label for="Age" class="form-label">Age</label>
+            <input
+              type="number"
+              id="Age"
+              class="form-control"
+              placeholder="Age"
+              name="Age"
+              onfocus="AgeCalc()"
+            />
+          </div>
+          <div class="col">
+            <label for="Gender" class="form-label">Gender</label>
+            <input
+              type="text"
+              id="Gender"
+              class="form-control"
+              placeholder="Gender"
+              name="Gender"
+            />
+            <br />
+          </div>
+        </div>
+
+        <!-- Blood Group and Course and  Degree and Academicyear -->
+        <div class="row">
+          <div class="col-2">
+            <label for="BloodGroup" class="form-label">BloodGroup</label>
+            <input
+              type="text"
+              id="BloodGroup"
+              class="form-control"
+              placeholder="BloodGroup"
+              name="Blood_group"
+            />
+          </div>
+          <div class="col-5">
+            <label for="course" class="form-label">Course</label>
+            <input
+              type="text"
+              id="course"
+              class="form-control"
+              placeholder="Course"
+              name="Course"
+            />
+          </div>
+          <div class="col-5">
+            <label for="Degree" class="form-label">Degree</label>
+            <input
+              type="text"
+              id="Degree"
+              class="form-control"
+              placeholder="Degree"
+              name="Degree"
+            />
+          </div>
+          <div class="col-5">
+            <label for="Academicyear" class="form-label">Academic year</label>
+            <input
+              type="number"
+              id="Degree"
+              class="form-control"
+              placeholder="Academic year"
+              name="Academic_year"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+  </div>
+
+  <!--Temporary Address and Permanent Address -->
+  <div class="container-fluid">
+    <div class="mb-3">
+      <div class="row">
+        <div class="col">
+          <label for="T_address" class="form-label"
+            >Temporary Address</label
+          >
+          <textarea
+            class="form-control"
+            id="T_Address"
+            rows="5"
+            name="Temporary_Address"
+          ></textarea>
+          <br />
+        </div>
+      </div>
+      <div class="input-group mb-3">
+        <div class="input-group-text">
+          <input
+            class="form-check-input mt-0"
+            type="checkbox"
+            id="mycheck"
+            aria-label="Checkbox for following text input"
+            onclick="copyFunction()"
+          />
+          <label class="form-text">
+            Check  Here If Permanent Address same as Temporary Address</label
+          >
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label for="P_address" class="form-label"
+            >Permanent Address</label
+          >
+          <textarea
+            class="form-control"
+            id="P_Address"
+            rows="5"
+            name="Permanent_Address"
+          ></textarea>
+          <br />
+        </div>
+      </div>
+
+      <!--EmailID and ContactNumber -->
+      <div class="row">
+        <div class="col">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            id="email"
+            class="form-control"
+            placeholder="Email ID"
+            name="Email_ID"
+            required
+          />
+        </div>
+        <div class="col">
+          <label for="Cont_No" class="form-label">Contact Number</label>
+          <input
+            type="number"
+            id="Cont_No"
+            class="form-control"
+            placeholder="Contact Number"
+            name="Contact_Number"
+
+            required
+          />
+        </div>
+      </div>
+    </div>
+    <br />
+  </div>
+
+  <!--FatherName and MotherName -->
+  <div class="container-fluid">
+    <div class="mb-3">
+      <div class="row">
+        <div class="col">
+          <label for="F_name" class="form-label">Father Name</label>
+          <input
+            type="text"
+            id="F_Name"
+            class="form-control"
+            placeholder="Father Name"
+            name="Father_Name"
+          />
+        </div>
+        <div class="col">
+          <label for="M_name" class="form-label">Mother Name</label>
+          <input
+            type="text"
+            id="M_Name"
+            class="form-control"
+            placeholder="Mother Name"
+            name="Mother_Name"
+          /><br />
+        </div>
+      </div>
+
+      <!--FatherOccupation and MotherOccupation -->
+      <div class="row">
+        <div class="col">
+          <label for="F_occupation" class="form-label">Father Occupation</label>
+          <input
+            type="text"
+            id="F_Name"
+            class="form-control"
+            placeholder="Father Occupation"
+            name="Father_occupation"
+          />
+        </div>
+        <div class="col">
+          <label for="M_occupation" class="form-label">Mother Occupation</label>
+          <input
+            type="text"
+            id="M_Name"
+            class="form-control"
+            placeholder="Mother Occupation"
+            name="Mother_occupation"
+          />
+          <br />
+        </div>
+      </div>
+
+      <!--FatherAnnualIncome and MotherAnnualIncome-->
+      <div class="row">
+        <div class="col">
+          <label for="F_A_income" class="form-label">Father AnnualIncome</label>
+          <input
+            type="number"
+            id="F_A_income"
+            class="form-control"
+            placeholder="Father AnnualIncome"
+            name="F_AnnualIncome"
+          />
+        </div>
+        <div class="col">
+          <label for="M_A_income" class="form-label">Mother AnnualIncome</label>
+          <input
+            type="number"
+            id="M_A_income"
+            class="form-control"
+            placeholder="Mother AnnualIncome"
+            name="M_AnnualIncome"
+          />
+          <br />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Nationality and Caste and Sub-Caste -->
+  <div class="container-fluid">
+    <div class="mb-3">
+      <div class="row">
+        <div class="col">
+          <label for="Nationality" class="form-label">Nationality</label>
+          <input
+            type="text"
+            id="DOB"
+            class="form-control"
+            placeholder="Nationality"
+            name="Nationality"
+          />
+        </div>
+        <div class="col">
+          <label for="Caste" class="form-label">Caste</label>
+          <input
+            type="text"
+            id="Caste"
+            class="form-control"
+            placeholder="Caste"
+            name="Caste"
+          />
+        </div>
+        <div class="col">
+          <label for="Sub-Caste" class="form-label">Sub-Caste</label>
+          <input
+            type="text"
+            id="Sub-Caste"
+            class="form-control"
+            placeholder="Sub-Caste"
+            name="Sub_caste"
+          />
+          <br />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid" style="border-color:white;">
+    <div class="d-grid gap-2 col-3 mx-auto">
+      <button type="submit" class="btn btn-outline-primary btn-lg">
+        Submit
+      </button>
+    </div>
+  </div>
+</form>
+
+{% endblock content%}
